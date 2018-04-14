@@ -6,3 +6,5 @@ out/*
 
 gradle/*
 .gradle/*
+
+logs/*
