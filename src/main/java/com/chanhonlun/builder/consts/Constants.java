@@ -1,4 +1,4 @@
-package com.chanhonlun.consts;
+package com.chanhonlun.builder.consts;
 
 public class Constants {
 

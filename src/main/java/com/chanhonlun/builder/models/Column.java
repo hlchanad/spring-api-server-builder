@@ -1,4 +1,4 @@
-package com.chanhonlun.models;
+package com.chanhonlun.builder.models;
 
 public class Column {
 
