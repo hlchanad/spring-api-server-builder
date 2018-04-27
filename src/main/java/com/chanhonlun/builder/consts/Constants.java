@@ -10,4 +10,6 @@ public class Constants {
     public static final String PROP_DATABASE_PASSWORD       = "database.password";
     public static final String PROP_DATABASE_DEFAULT_SCHEMA = "database.defaultSchema";
 
+    public static final String PROP_COMMANDS_FILE_PATH      = "commands.path";
+
 }
