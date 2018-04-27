@@ -1,6 +1,49 @@
 {
   "options": [
+    {
+      "opt": "p",
+      "longOpt": "pojo",
+      "desc": "Create pojo file with given table name",
+      "hasArg": true,
+      "arg": {
+        "name": "table",
+        "required": true
+      }
+    },
+    {
+      "opt": "P",
+      "longOpt": "pojo-all",
+      "desc": "Create all pojo files with all user tables",
+      "hasArg": false,
+      "arg": null
+    },
+    {
+      "opt": "f",
+      "longOpt": "file-path",
+      "desc": "Create file(s) into the specific path",
+      "hasArg": true,
+      "arg": {
+        "name": "path",
+        "required": true
+      }
+    }
   ],
   "commands": [
+    {
+      "options": ["p"],
+      "handler": "com.chanhonlun.builder.commandHandlers.CreatePojoHandler"
+    },
+    {
+      "options": ["p", "f"],
+      "handler": "com.chanhonlun.builder.commandHandlers.CreatePojoIntoFilePathHandler"
+    },
+    {
+      "options": ["P"],
+      "handler": "com.chanhonlun.builder.commandHandlers.CreateAllPojosHandler"
+    },
+    {
+      "options": ["P", "f"],
+      "handler": "com.chanhonlun.builder.commandHandlers.CreateAllPojosIntoFilePathHandler"
+    }
   ]
 }
