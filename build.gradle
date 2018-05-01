@@ -34,5 +34,14 @@ dependencies {
     // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
 
+    // https://mvnrepository.com/artifact/org.jtwig/jtwig-core
+    compile group: 'org.jtwig', name: 'jtwig-core', version: '5.87.0.RELEASE'
+
+    // https://mvnrepository.com/artifact/com.google.guava/guava
+    compile group: 'com.google.guava', name: 'guava', version: '14.0'
+
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.7'
+
     compile files ('libs/ojdbc7.jar')
 }
