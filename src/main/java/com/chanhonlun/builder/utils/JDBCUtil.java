@@ -33,7 +33,14 @@ public class JDBCUtil {
 
         Class.forName(driver);
 
-        connection = DriverManager.getConnection(url, username, password);
+//        connection = DriverManager.getConnection(url, username, password);
+
+        Properties properties = new Properties();
+        properties.put("remarksReporting", "true");   // required for Oracle DB for getting remarks
+        properties.put("user", username);
+        properties.put("password", password);
+
+        connection = DriverManager.getConnection(url, properties);
 
         logger.info("end");
     }
