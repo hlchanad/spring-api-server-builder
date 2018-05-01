@@ -1,6 +1,9 @@
 package com.chanhonlun.builder.models;
 
-public class Column {
+import lombok.Data;
+
+@Data
+public class TableColumn {
 
     private Boolean isPK;
     private String  name;
@@ -11,9 +14,9 @@ public class Column {
     private String  defaultValue;
     private String  remarks;
 
-    public Column() {}
+    public TableColumn() {}
 
-    public Column(Boolean isPK, String name, String dataType, Integer columnSize, Integer decimalDigit, Boolean nullable, String defaultValue, String remarks) {
+    public TableColumn(Boolean isPK, String name, String dataType, Integer columnSize, Integer decimalDigit, Boolean nullable, String defaultValue, String remarks) {
         this.isPK         = isPK;
         this.name         = name;
         this.dataType     = dataType;

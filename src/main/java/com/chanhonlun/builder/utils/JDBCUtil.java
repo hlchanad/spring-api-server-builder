@@ -1,13 +1,14 @@
 package com.chanhonlun.builder.utils;
 
 import com.chanhonlun.builder.consts.Constants;
-import com.chanhonlun.builder.models.Column;
+import com.chanhonlun.builder.models.TableColumn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class JDBCUtil {
 
@@ -90,11 +91,11 @@ public class JDBCUtil {
         return pks;
     }
 
-    public static List<Column> getTableColumns(String table) {
+    public static List<TableColumn> getTableColumns(String table) {
 
         List<String> pkNames = getPrimaryKeys(table);
 
-        List<Column> columns = new ArrayList<>();
+        List<TableColumn> tableColumns = new ArrayList<>();
 
         try {
             DatabaseMetaData metaData = connection.getMetaData();
@@ -114,16 +115,20 @@ public class JDBCUtil {
                 String defaultValue = resultSet.getString(13);
                 String remarks = resultSet.getString(12);
 
-//                logger.info("isPK: {}, name: {}, type: {}, typeName: {}, size: {}, decimal: {}, nullable: {}, default: {}, remarks: {}",
-//                        isPK, columnName, dataType, typeName, columnSize, decimalDigit, nullable, defaultValue, remarks);
+                if (typeName.contains("(")) {
+                    typeName = typeName.substring(0, typeName.indexOf("("));
+                }
 
-                columns.add(new Column(isPK, columnName, typeName, columnSize, decimalDigit, nullable, defaultValue, remarks));
+                logger.debug("isPK: {}, name: {}, type: {}, typeName: {}, size: {}, decimal: {}, nullable: {}, default: {}, remarks: {}",
+                        isPK, columnName, dataType, typeName, columnSize, decimalDigit, nullable, defaultValue, remarks);
+
+                tableColumns.add(new TableColumn(isPK, columnName, typeName, columnSize, decimalDigit, nullable, defaultValue, remarks));
             }
 
         } catch (SQLException e) {
-            logger.error("fail getting columns, e={}", e);
+            logger.error("fail getting tableColumns, e={}", e);
         }
 
-        return columns;
+        return tableColumns;
     }
 }
