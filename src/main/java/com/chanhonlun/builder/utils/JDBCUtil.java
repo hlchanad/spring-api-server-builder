@@ -59,6 +59,8 @@ public class JDBCUtil {
 
     public static List<String> getTableNames() {
 
+        long start = System.currentTimeMillis();
+
         List<String> tableNames = new ArrayList<>();
 
         try {
@@ -74,11 +76,17 @@ public class JDBCUtil {
             logger.error("fail getting tables, e={}", e);
         }
 
-        return tableNames;
+        long end = System.currentTimeMillis();
 
+        logger.info("get all table names, duration: {} ms", (end - start));
+
+        return tableNames;
     }
 
     public static List<String> getPrimaryKeys(String table) {
+
+        long start = System.currentTimeMillis();
+
         List<String> pks = new ArrayList<>();
 
         try {
@@ -95,10 +103,16 @@ public class JDBCUtil {
             logger.error("fail getting pks, e={}", e);
         }
 
+        long end = System.currentTimeMillis();
+
+        logger.info("get primary keys for table {}, duration: {} ms", table, (end - start));
+
         return pks;
     }
 
     public static List<TableColumn> getTableColumns(String table) {
+
+        long start = System.currentTimeMillis();
 
         List<String> pkNames = getPrimaryKeys(table);
 
@@ -135,6 +149,10 @@ public class JDBCUtil {
         } catch (SQLException e) {
             logger.error("fail getting tableColumns, e={}", e);
         }
+
+        long end = System.currentTimeMillis();
+
+        logger.info("get metadata for table {}, duration: {} ms", table, (end - start));
 
         return tableColumns;
     }
