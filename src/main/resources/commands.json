@@ -45,7 +45,7 @@
     },
     {
       "options": ["p", "n", "f"],
-      "handler": "com.chanhonlun.builder.commandHandlers.CreatePojoIntoFilePathHandler"
+      "handler": "com.chanhonlun.builder.commandHandlers.CreatePojoHandler"
     },
     {
       "options": ["P", "n"],

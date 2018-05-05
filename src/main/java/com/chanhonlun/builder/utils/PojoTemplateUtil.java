@@ -1,23 +1,24 @@
 package com.chanhonlun.builder.utils;
 
+import com.chanhonlun.builder.consts.TemplatePathConstants;
 import com.chanhonlun.builder.models.TableColumn;
 import com.chanhonlun.builder.models.TemplateColumn;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import org.jtwig.JtwigModel;
+import org.jtwig.JtwigTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.io.OutputStream;
+import java.util.*;
 
-public class TemplateUtil {
+public class PojoTemplateUtil {
 
-    private static final Logger logger = LoggerFactory.getLogger(TemplateUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(PojoTemplateUtil.class);
 
     // regex -> Class
-    private static List<Pair<String, Class>> typings = Arrays.asList(
+    private static final List<Pair<String, Class>> typings = Arrays.asList(
             new ImmutablePair<>("(?i)\\w+: varchar.*", String.class),
             new ImmutablePair<>("(?i)\\w+: (datetime|timestamp).*", Date.class),
             new ImmutablePair<>("(?i)IS_\\w+: number\\(1, 0\\)", Boolean.class),
@@ -49,6 +50,46 @@ public class TemplateUtil {
         }
 
         return templateColumns;
+    }
+
+    public static String render(String packageName, String tableName) {
+
+        Map<String, Object> templateData = templateData(packageName, tableName);
+
+        JtwigTemplate template = JtwigTemplate.classpathTemplate(TemplatePathConstants.RESOURCES_POJO_PATH);
+        JtwigModel model = JtwigModel.newModel(templateData);
+
+        return template.render(model);
+    }
+
+    public static void render(String packageName, String tableName, OutputStream os) {
+
+        Map<String, Object> templateData = templateData(packageName, tableName);
+
+        JtwigTemplate template = JtwigTemplate.classpathTemplate(TemplatePathConstants.RESOURCES_POJO_PATH);
+        JtwigModel model = JtwigModel.newModel(templateData);
+
+        template.render(model, os);
+    }
+
+    private static Map<String, Object> templateData(String packageName, String tableName) {
+        List<TableColumn> tableColumns = JDBCUtil.getTableColumns(tableName);
+
+        logger.debug("table: {}, columns: {}", tableName, tableColumns);
+
+        List<TemplateColumn> templateColumns = PojoTemplateUtil.getColumnsForTemplate(tableColumns);
+
+        logger.debug("templateColumns: {}", templateColumns);
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("packageName", packageName);
+        data.put("tableName", tableName);
+        data.put("javaTableName", StrUtil.javaName(tableName, true));
+        data.put("columns", templateColumns);
+
+        logger.debug("map for template: {}", data);
+
+        return data;
     }
 
     private static String getJavaType(String columnName, String dataType, Integer columnSize, Integer decimalDigit) {

@@ -1,19 +1,16 @@
 package com.chanhonlun.builder.commandHandlers;
 
-import com.chanhonlun.builder.models.TableColumn;
-import com.chanhonlun.builder.models.TemplateColumn;
-import com.chanhonlun.builder.utils.JDBCUtil;
+import com.chanhonlun.builder.consts.OutputPathConstants;
+import com.chanhonlun.builder.utils.PojoTemplateUtil;
 import com.chanhonlun.builder.utils.StrUtil;
-import com.chanhonlun.builder.utils.TemplateUtil;
 import com.chanhonlun.command.handlers.Handler;
-import org.jtwig.JtwigModel;
-import org.jtwig.JtwigTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 
 public class CreatePojoHandler implements Handler {
 
@@ -24,26 +21,19 @@ public class CreatePojoHandler implements Handler {
 
         String tableName   = arguments[0];
         String packageName = arguments[1];
+        String filepath    = arguments.length >= 3 ? arguments[2] : OutputPathConstants.OUTPUT_PATH;
 
-        List<TableColumn> tableColumns = JDBCUtil.getTableColumns(tableName);
+        File directory = new File(filepath);
+        directory.mkdir();
 
-        logger.debug("table: {}, columns: {}", tableName, tableColumns);
+        String filename    = StrUtil.javaName(tableName, true) + ".java";
+        logger.info("creating pojo '{}' into filepath: '{}'", filename, filepath);
 
-        List<TemplateColumn> templateColumns = TemplateUtil.getColumnsForTemplate(tableColumns);
-
-        logger.debug("templateColumns: {}", templateColumns);
-
-        Map<String, Object> data = new HashMap<>();
-        data.put("packageName", packageName);
-        data.put("tableName", tableName);
-        data.put("javaTableName", StrUtil.javaName(tableName, true));
-        data.put("columns", templateColumns);
-
-        logger.debug("map for template: {}", data);
-
-        JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/pojo.twig");
-        JtwigModel model = JtwigModel.newModel(data);
-        template.render(model, System.out);
-
+        try {
+            OutputStream fos = new FileOutputStream(filepath + filename);
+            PojoTemplateUtil.render(packageName, tableName, fos);
+        } catch (FileNotFoundException e) {
+            logger.error("fail creating pojo {}, e={}", filename, e);
+        }
     }
 }
