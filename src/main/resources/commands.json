@@ -18,6 +18,16 @@
       "arg": null
     },
     {
+      "opt": "n",
+      "longOpt": "package",
+      "desc": "Specify the package name",
+      "hasArg": true,
+      "arg": {
+        "name": "name",
+        "required": true
+      }
+    },
+    {
       "opt": "f",
       "longOpt": "file-path",
       "desc": "Create file(s) into the specific path",
@@ -30,19 +40,19 @@
   ],
   "commands": [
     {
-      "options": ["p"],
+      "options": ["p", "n"],
       "handler": "com.chanhonlun.builder.commandHandlers.CreatePojoHandler"
     },
     {
-      "options": ["p", "f"],
+      "options": ["p", "n", "f"],
       "handler": "com.chanhonlun.builder.commandHandlers.CreatePojoIntoFilePathHandler"
     },
     {
-      "options": ["P"],
+      "options": ["P", "n"],
       "handler": "com.chanhonlun.builder.commandHandlers.CreateAllPojosHandler"
     },
     {
-      "options": ["P", "f"],
+      "options": ["P", "n", "f"],
       "handler": "com.chanhonlun.builder.commandHandlers.CreateAllPojosIntoFilePathHandler"
     }
   ]

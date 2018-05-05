@@ -22,7 +22,8 @@ public class CreatePojoHandler implements Handler {
     @Override
     public void handle(String... arguments) {
 
-        String tableName = arguments[0];
+        String tableName   = arguments[0];
+        String packageName = arguments[1];
 
         List<TableColumn> tableColumns = JDBCUtil.getTableColumns(tableName);
 
@@ -33,7 +34,7 @@ public class CreatePojoHandler implements Handler {
         logger.debug("templateColumns: {}", templateColumns);
 
         Map<String, Object> data = new HashMap<>();
-        data.put("packageName", "com.chanhonlun.server.pojos");
+        data.put("packageName", packageName);
         data.put("tableName", tableName);
         data.put("javaTableName", StrUtil.javaName(tableName, true));
         data.put("columns", templateColumns);

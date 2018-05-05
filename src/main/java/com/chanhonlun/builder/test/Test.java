@@ -28,7 +28,7 @@ public class Test {
     public static void main(String[] args) throws SQLException, ParseException {
 
         args = new String[]{
-                "-p", "SHOP_USER",
+                "-p", "SHOP_USER", "-n", "com.chanhonlun.server.pojos"
 //                "-p", "SHOP_USER", "-f", "output"
 //                "-P"
 //                "-P", "-f", "output"
