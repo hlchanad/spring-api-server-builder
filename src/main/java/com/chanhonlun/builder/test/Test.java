@@ -28,10 +28,10 @@ public class Test {
     public static void main(String[] args) throws SQLException, ParseException {
 
         args = new String[]{
-                "-p", "SHOP_USER", "-n", "com.chanhonlun.server.pojos"
+//                "-p", "SHOP_USER", "-n", "com.chanhonlun.server.pojos"
 //                "-p", "SHOP_USER", "-n", "com.chanhonlun.server.pojos", "-f", "output/"
-//                "-P"
-//                "-P", "-f", "output"
+//                "-P", "-n", "com.chanhonlun.server.pojos"
+                "-P", "-n", "com.chanhonlun.server.pojos", "-f", "output/"
 
         };
         logger.info("args: {}", Arrays.toString(args));
