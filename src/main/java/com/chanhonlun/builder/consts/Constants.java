@@ -12,4 +12,10 @@ public class Constants {
 
     public static final String PROP_COMMANDS_FILE_PATH      = "commands.path";
 
+    public static final String PROP_OUTPUT_DIRECTORY        = "project.outputDirectory";
+    public static final String PROP_PROJ_GROUP_ID           = "project.groupId";
+    public static final String PROP_PROJ_ARTIFACT           = "project.artifact";
+
+    public static final String PATH_BASIC_STRUCTURE         = "base-structure";
+
 }

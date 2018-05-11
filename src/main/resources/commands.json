@@ -36,6 +36,13 @@
         "name": "path",
         "required": true
       }
+    },
+    {
+      "opt": "r",
+      "longOpt": "run",
+      "desc": "Create everything",
+      "hasArg": false,
+      "arg": null
     }
   ],
   "commands": [
@@ -54,6 +61,10 @@
     {
       "options": ["P", "n", "f"],
       "handler": "com.chanhonlun.builder.commandHandlers.CreateAllPojosHandler"
+    },
+    {
+      "options": ["r"],
+      "handler": "com.chanhonlun.builder.commandHandlers.CreateEverythingHandler"
     }
   ]
 }

@@ -31,8 +31,8 @@ public class Test {
 //                "-p", "SHOP_USER", "-n", "com.chanhonlun.server.pojos"
 //                "-p", "SHOP_USER", "-n", "com.chanhonlun.server.pojos", "-f", "output/"
 //                "-P", "-n", "com.chanhonlun.server.pojos"
-                "-P", "-n", "com.chanhonlun.server.pojos", "-f", "output/"
-
+//                "-P", "-n", "com.chanhonlun.server.pojos", "-f", "output/"
+                "-r"
         };
         logger.info("args: {}", Arrays.toString(args));
 
@@ -40,14 +40,5 @@ public class Test {
 
         CommandUtil.parseCommand(args);
 
-//        logger.info("connected");
-//
-//        logger.info("tableNames: {}", JDBCUtil.getTableNames());
-//
-//        logger.info("pks for SHOP_USER: {}", JDBCUtil.getPrimaryKeys("SHOP_USER"));
-//
-//        logger.info("columns for SHOP_USER: {}", JDBCUtil.getTableColumns("SHOP_USER"));
-//
-//        JDBCUtil.close();
     }
 }
