@@ -1,15 +1,14 @@
 package com.chanhonlun.builder.commandHandlers;
 
 import com.chanhonlun.builder.consts.Constants;
-import com.chanhonlun.builder.utils.CryptoUtil;
-import com.chanhonlun.builder.utils.PropertiesUtil;
+import com.chanhonlun.builder.consts.OutputPathConstants;
+import com.chanhonlun.builder.utils.*;
 import com.chanhonlun.command.handlers.Handler;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 public class CreateEverythingHandler implements Handler {
 
@@ -27,7 +26,18 @@ public class CreateEverythingHandler implements Handler {
 
         copyBasicStructure(basicStructureResourcesPath, outputDirectory);
 
+        String groupId  = PropertiesUtil.getProperty(Constants.PROP_PROJ_GROUP_ID);
+        String artifact = PropertiesUtil.getProperty(Constants.PROP_PROJ_ARTIFACT);
 
+        String basePackageName = groupId + "." + artifact;
+        // sample basePath = output/src/main/java/com/chanhonlun/server
+        String basePath        = outputDirectory + File.separator + OutputPathConstants.OUTPUT_PATH_SRC_MAIN_JAVA + File.separator + basePackageName.replaceAll("\\.", File.separator);
+
+        new File(basePath).mkdirs();
+
+        for (String tableName : JDBCUtil.getTableNames()) {
+            createPojo(tableName, basePath, basePackageName);
+        }
     }
 
     /**
@@ -67,4 +77,19 @@ public class CreateEverythingHandler implements Handler {
         }
     }
 
+    private void createPojo(String tableName, String basePath, String basePackageName) {
+
+        String pojoPackage  = basePackageName + "." + OutputPathConstants.POJO_PACKAGE;
+        String pojoPath     = basePath + File.separator + OutputPathConstants.POJO_PACKAGE + File.separator;
+        String pojoFileName = StrUtil.javaName(tableName, true) + OutputPathConstants.CLASS_SUFFIX_POJO + ".java";
+
+        new File(pojoPath).mkdirs();
+
+        try {
+            OutputStream os = new FileOutputStream(pojoPath + pojoFileName);
+            PojoTemplateUtil.render(pojoPackage, tableName, os);
+        } catch (FileNotFoundException e) {
+            logger.info("fail creating pojo {}, e={}", tableName, e);
+        }
+    }
 }
