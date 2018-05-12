@@ -35,8 +35,11 @@ public class CreateEverythingHandler implements Handler {
 
         new File(basePath).mkdirs();
 
+        writeBaseRepositoryInterface(basePath, basePackageName);
+
         for (String tableName : JDBCUtil.getTableNames()) {
             createPojo(tableName, basePath, basePackageName);
+            createRepository(tableName,basePath, basePackageName);
         }
     }
 
@@ -77,6 +80,30 @@ public class CreateEverythingHandler implements Handler {
         }
     }
 
+    private void writeBaseRepositoryInterface(String basePath, String basePackageName) {
+
+        String repoPackage  = basePackageName + "." + OutputPathConstants.REPO_PACKAGE;
+        String repoPath     = basePath + File.separator + OutputPathConstants.REPO_PACKAGE + File.separator;
+
+        String translationTableSuffix = StrUtil.capFirst(PropertiesUtil.getProperty(Constants.PROP_PROJ_TABLE_TRANSLATION_TABLE_SUFFIX));
+
+        String repoFileName = OutputPathConstants.BASE_CLASS_NAME + OutputPathConstants.CLASS_SUFFIX_REPOSITORY + ".java";
+        String repoTranslationFileName = OutputPathConstants.BASE_CLASS_NAME + translationTableSuffix + OutputPathConstants.CLASS_SUFFIX_REPOSITORY + ".java";
+
+        new File(repoPath).mkdirs();
+
+        try {
+            OutputStream basicRepoOS = new FileOutputStream(repoPath + repoFileName);
+            OutputStream basicTranslationRepoOS = new FileOutputStream(repoPath + repoTranslationFileName);
+
+            RepoTemplateUtil.renderBasic(repoPackage, basicRepoOS);
+            RepoTemplateUtil.renderBasicTranslation(repoPackage, basicTranslationRepoOS);
+
+        } catch (FileNotFoundException e) {
+            logger.info("fail creating basic repos, e={}", e);
+        }
+    }
+
     private void createPojo(String tableName, String basePath, String basePackageName) {
 
         String pojoPackage  = basePackageName + "." + OutputPathConstants.POJO_PACKAGE;
@@ -90,6 +117,33 @@ public class CreateEverythingHandler implements Handler {
             PojoTemplateUtil.render(pojoPackage, tableName, os);
         } catch (FileNotFoundException e) {
             logger.info("fail creating pojo {}, e={}", tableName, e);
+        }
+    }
+
+    private void createRepository(String tableName, String basePath, String basePackageName) {
+
+        String repoPackage  = basePackageName + "." + OutputPathConstants.REPO_PACKAGE;
+        String repoPath     = basePath + File.separator + OutputPathConstants.REPO_PACKAGE + File.separator;
+        String repoFileName = StrUtil.javaName(tableName, true) + OutputPathConstants.CLASS_SUFFIX_REPOSITORY + ".java";
+
+        String pojoPackage  = basePackageName + "." + OutputPathConstants.POJO_PACKAGE;
+
+        String translationTableSuffix = PropertiesUtil.getProperty(Constants.PROP_PROJ_TABLE_TRANSLATION_TABLE_SUFFIX);
+
+        new File(repoPath).mkdirs();
+
+        int indexOf = tableName.toLowerCase().indexOf(translationTableSuffix.toLowerCase());
+        boolean isTranslationTable = indexOf > 0 && indexOf == tableName.length() - translationTableSuffix.length();
+
+        try {
+            OutputStream os = new FileOutputStream(repoPath + repoFileName);
+            if (isTranslationTable) {
+                RepoTemplateUtil.renderDetail(repoPackage, pojoPackage, tableName, os);
+            } else {
+                RepoTemplateUtil.render(repoPackage, pojoPackage, tableName, os);
+            }
+        } catch (FileNotFoundException e) {
+            logger.info("fail creating repo {}, e={}", tableName, e);
         }
     }
 }

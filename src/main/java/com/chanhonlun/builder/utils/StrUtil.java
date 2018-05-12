@@ -12,4 +12,8 @@ public class StrUtil {
         CaseFormat caseFormat = capitalizeFirst ? CaseFormat.UPPER_CAMEL : CaseFormat.LOWER_CAMEL;
         return CaseFormat.UPPER_UNDERSCORE.to(caseFormat, underScoredName.toUpperCase());
     }
+
+    public static String capFirst(String text) {
+        return text.substring(0, 1).toUpperCase() + text.substring(1);
+    }
 }

@@ -1,0 +1,9 @@
+package {{ packageName }};
+
+import org.springframework.stereotype.Repository;
+import {{ pojoPackage }}.{{ pojo }};
+
+@Repository
+public interface {{ repository }} extends {{ baseDetailRepository }}<{{ pojo }}, Long> {
+
+}
