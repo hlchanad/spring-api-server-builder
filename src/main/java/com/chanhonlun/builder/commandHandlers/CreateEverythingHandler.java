@@ -112,10 +112,9 @@ public class CreateEverythingHandler implements Handler {
 
         new File(pojoPath).mkdirs();
 
-        try {
-            OutputStream os = new FileOutputStream(pojoPath + pojoFileName);
+        try (OutputStream os = new FileOutputStream(pojoPath + pojoFileName)){
             TemplatePojoUtil.render(pojoPackage, tableName, os);
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             logger.info("fail creating pojo {}, e={}", tableName, e);
         }
     }
@@ -135,14 +134,13 @@ public class CreateEverythingHandler implements Handler {
         int indexOf = tableName.toLowerCase().indexOf(translationTableSuffix.toLowerCase());
         boolean isTranslationTable = indexOf > 0 && indexOf == tableName.length() - translationTableSuffix.length();
 
-        try {
-            OutputStream os = new FileOutputStream(repoPath + repoFileName);
+        try (OutputStream os = new FileOutputStream(repoPath + repoFileName)){
             if (isTranslationTable) {
                 TemplateRepoUtil.renderDetail(repoPackage, pojoPackage, tableName, os);
             } else {
                 TemplateRepoUtil.render(repoPackage, pojoPackage, tableName, os);
             }
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             logger.info("fail creating repo {}, e={}", tableName, e);
         }
     }
