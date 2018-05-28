@@ -2,6 +2,7 @@ package com.chanhonlun.builder.commandHandlers;
 
 import com.chanhonlun.builder.consts.Constants;
 import com.chanhonlun.builder.consts.OutputPathConstants;
+import com.chanhonlun.builder.consts.TemplatePathConstants;
 import com.chanhonlun.builder.utils.*;
 import com.chanhonlun.command.handlers.Handler;
 import org.apache.commons.io.FileUtils;
@@ -9,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CreateEverythingHandler implements Handler {
 
@@ -28,6 +31,8 @@ public class CreateEverythingHandler implements Handler {
 
         String groupId  = PropertiesUtil.getProperty(Constants.PROP_PROJ_GROUP_ID);
         String artifact = PropertiesUtil.getProperty(Constants.PROP_PROJ_ARTIFACT);
+
+        writeBuildDotGradle(groupId, artifact, outputDirectory);
 
         String basePackageName = groupId + "." + artifact;
         // sample basePath = output/src/main/java/com/chanhonlun/server
@@ -77,6 +82,19 @@ public class CreateEverythingHandler implements Handler {
                     new File(toPath));
         } catch (IOException e) {
             logger.error("fail copying directory, e={}", e);
+        }
+    }
+
+    private void writeBuildDotGradle(String groupId, String artifact, String rootDirectory) {
+
+        Map<String, Object> templateData = new HashMap<>();
+        templateData.put("groupId", groupId);
+        templateData.put("artifact", artifact);
+
+        try (OutputStream os = new FileOutputStream(rootDirectory + File.separator + "build.gradle")) {
+            TemplateUtil.renderTemplate(TemplatePathConstants.RESOURCES_BUILD_DOT_GRADLE_PATH, templateData, os);
+        } catch (IOException e) {
+            logger.info("fail creating build.gradle e={}", e);
         }
     }
 
