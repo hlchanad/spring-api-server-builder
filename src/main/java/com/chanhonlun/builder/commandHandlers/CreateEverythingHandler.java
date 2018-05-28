@@ -96,8 +96,8 @@ public class CreateEverythingHandler implements Handler {
             OutputStream basicRepoOS = new FileOutputStream(repoPath + repoFileName);
             OutputStream basicTranslationRepoOS = new FileOutputStream(repoPath + repoTranslationFileName);
 
-            RepoTemplateUtil.renderBasic(repoPackage, basicRepoOS);
-            RepoTemplateUtil.renderBasicTranslation(repoPackage, basicTranslationRepoOS);
+            TemplateRepoUtil.renderBasic(repoPackage, basicRepoOS);
+            TemplateRepoUtil.renderBasicTranslation(repoPackage, basicTranslationRepoOS);
 
         } catch (FileNotFoundException e) {
             logger.info("fail creating basic repos, e={}", e);
@@ -114,7 +114,7 @@ public class CreateEverythingHandler implements Handler {
 
         try {
             OutputStream os = new FileOutputStream(pojoPath + pojoFileName);
-            PojoTemplateUtil.render(pojoPackage, tableName, os);
+            TemplatePojoUtil.render(pojoPackage, tableName, os);
         } catch (FileNotFoundException e) {
             logger.info("fail creating pojo {}, e={}", tableName, e);
         }
@@ -138,9 +138,9 @@ public class CreateEverythingHandler implements Handler {
         try {
             OutputStream os = new FileOutputStream(repoPath + repoFileName);
             if (isTranslationTable) {
-                RepoTemplateUtil.renderDetail(repoPackage, pojoPackage, tableName, os);
+                TemplateRepoUtil.renderDetail(repoPackage, pojoPackage, tableName, os);
             } else {
-                RepoTemplateUtil.render(repoPackage, pojoPackage, tableName, os);
+                TemplateRepoUtil.render(repoPackage, pojoPackage, tableName, os);
             }
         } catch (FileNotFoundException e) {
             logger.info("fail creating repo {}, e={}", tableName, e);

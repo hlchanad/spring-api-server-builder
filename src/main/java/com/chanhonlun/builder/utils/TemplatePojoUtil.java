@@ -13,9 +13,9 @@ import org.slf4j.LoggerFactory;
 import java.io.OutputStream;
 import java.util.*;
 
-public class PojoTemplateUtil {
+public class TemplatePojoUtil {
 
-    private static final Logger logger = LoggerFactory.getLogger(PojoTemplateUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(TemplatePojoUtil.class);
 
     // regex -> Class
     private static final List<Pair<String, Class>> typings = Arrays.asList(
@@ -77,7 +77,7 @@ public class PojoTemplateUtil {
 
         logger.debug("table: {}, columns: {}", tableName, tableColumns);
 
-        List<TemplateColumn> templateColumns = PojoTemplateUtil.getColumnsForTemplate(tableColumns);
+        List<TemplateColumn> templateColumns = TemplatePojoUtil.getColumnsForTemplate(tableColumns);
 
         logger.debug("templateColumns: {}", templateColumns);
 

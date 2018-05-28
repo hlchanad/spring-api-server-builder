@@ -12,9 +12,9 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RepoTemplateUtil {
+public class TemplateRepoUtil {
 
-    private static final Logger logger = LoggerFactory.getLogger(RepoTemplateUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(TemplateRepoUtil.class);
 
 
     public static void render(String packageName, String pojoPackageName, String tableName, OutputStream os) {

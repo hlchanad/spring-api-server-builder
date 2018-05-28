@@ -2,7 +2,7 @@ package com.chanhonlun.builder.commandHandlers;
 
 import com.chanhonlun.builder.consts.OutputPathConstants;
 import com.chanhonlun.builder.utils.JDBCUtil;
-import com.chanhonlun.builder.utils.PojoTemplateUtil;
+import com.chanhonlun.builder.utils.TemplatePojoUtil;
 import com.chanhonlun.builder.utils.StrUtil;
 import com.chanhonlun.command.handlers.Handler;
 import org.slf4j.Logger;
@@ -35,7 +35,7 @@ public class CreateAllPojosHandler implements Handler {
 
             try {
                 OutputStream fos = new FileOutputStream(filepath + filename);
-                PojoTemplateUtil.render(packageName, tableName, fos);
+                TemplatePojoUtil.render(packageName, tableName, fos);
             } catch (FileNotFoundException e) {
                 logger.error("fail creating pojo {}, e={}", filename, e);
             }
