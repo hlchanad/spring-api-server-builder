@@ -79,7 +79,7 @@ public class TemplateRepoUtil {
         Map<String, Object> templateData = new HashMap<>();
         templateData.put("packageName", packageName);
         templateData.put("capRefIdField", StrUtil.capFirst(refIdField));
-        templateData.put("refIdField", refIdField);
+        templateData.put("idField", refIdField);
         templateData.put("capLangField", StrUtil.capFirst(langField));
         templateData.put("langField", langField);
 

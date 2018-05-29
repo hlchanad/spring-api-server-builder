@@ -6,7 +6,7 @@ import org.springframework.data.repository.NoRepositoryBean;
 import java.io.Serializable;
 
 @NoRepositoryBean
-public interface BaseRepository<Pojo, PK extends Serializable> extends CrudRepository<Pojo, PK> {
+public interface BaseDetailRepository<Pojo, PK extends Serializable> extends CrudRepository<Pojo, PK> {
 
     Pojo findBy{{ capRefIdField }}And{{ capLangField }}(PK {{ idField }}, String {{ langField }});
 }
