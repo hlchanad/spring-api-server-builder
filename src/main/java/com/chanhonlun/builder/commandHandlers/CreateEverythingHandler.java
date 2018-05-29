@@ -36,7 +36,7 @@ public class CreateEverythingHandler implements Handler {
 
         String basePackageName = groupId + "." + artifact;
         // sample basePath = output/src/main/java/com/chanhonlun/server
-        String basePath        = outputDirectory + File.separator + OutputPathConstants.OUTPUT_PATH_SRC_MAIN_JAVA + File.separator + basePackageName.replaceAll("\\.", File.separator);
+        String basePath        = outputDirectory + File.separator + OutputPathConstants.OUTPUT_PATH_SRC_MAIN_JAVA + File.separator + basePackageName.replaceAll("\\.", "\\".equals(File.separator) ? "\\" + File.separator : File.separator);
 
         new File(basePath).mkdirs();
 
