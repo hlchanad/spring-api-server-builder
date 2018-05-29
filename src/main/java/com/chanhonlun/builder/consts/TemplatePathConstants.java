@@ -8,4 +8,5 @@ public class TemplatePathConstants {
     public static final String RESOURCES_REPO_PATH                      = "twig/repository.twig";
     public static final String RESOURCES_DETAIL_REPO_PATH               = "twig/detailRepository.twig";
     public static final String RESOURCES_BUILD_DOT_GRADLE_PATH          = "twig/build.gradle.twig";
+    public static final String RESOURCES_HELLO_WORLD_PATH               = "twig/HelloWorldController.twig";
 }

@@ -42,6 +42,8 @@ public class CreateEverythingHandler implements Handler {
 
         writeBaseRepositoryInterface(basePath, basePackageName);
 
+        createHelloWroldController(basePath, basePackageName);
+
         for (String tableName : JDBCUtil.getTableNames()) {
             createPojo(tableName, basePath, basePackageName);
             createRepository(tableName,basePath, basePackageName);
@@ -119,6 +121,25 @@ public class CreateEverythingHandler implements Handler {
 
         } catch (FileNotFoundException e) {
             logger.info("fail creating basic repos, e={}", e);
+        }
+    }
+
+    private void createHelloWroldController(String basePath, String basePackageName) {
+
+        String controllerPackage  = basePackageName + "." + OutputPathConstants.CONTROLLER_PACKAGE;
+        String controllerPath     = basePath + File.separator + OutputPathConstants.CONTROLLER_PACKAGE + File.separator;
+        String controllerFileName = OutputPathConstants.HELLO_WORLD_CONTROLLER_NAME + OutputPathConstants.CLASS_SUFFIX_CONTROLLER + ".java";
+
+        new File(controllerPath).mkdirs();
+
+        Map<String, Object> templateData = new HashMap<>();
+        templateData.put("packageName", controllerPackage);
+        templateData.put("helloWorldControllerName", OutputPathConstants.HELLO_WORLD_CONTROLLER_NAME + OutputPathConstants.CLASS_SUFFIX_CONTROLLER);
+
+        try (OutputStream os = new FileOutputStream(controllerPath + controllerFileName)){
+            TemplateUtil.renderTemplate(TemplatePathConstants.RESOURCES_HELLO_WORLD_PATH, templateData, os);
+        } catch (IOException e) {
+            logger.info("fail creating HelloWorldController {}, e={}", controllerFileName, e);
         }
     }
 
