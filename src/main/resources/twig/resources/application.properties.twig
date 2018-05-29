@@ -1,0 +1,18 @@
+###### hibernate Database Setting ######
+database.url={{ databaseUrl }}
+database.username={{ databaseUsername }}
+database.password={{  databasePassword }}
+database.defaultSchema={{ databaseDefaultSchema }}
+database.maxTotal=10
+database.maxIdle=10
+database.minIdle=5
+database.maxWaitMillis=60
+database.initialSize=5
+database.validationQuery=SELECT 1 FROM dual
+database.validationQueryTimeout=60
+database.showSQL=false
+
+###### Request Encryption ################
+asw.encrypt.key=1234123412341234
+asw.decrypt.request.list=
+asw.decrypt.request.exclude.list=

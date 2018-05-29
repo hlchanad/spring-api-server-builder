@@ -34,7 +34,7 @@ public class CreateEverythingHandler implements Handler {
 
         writeBuildDotGradle(groupId, artifact, outputDirectory);
 
-        writeResources(outputDirectory);
+        writeResources(groupId, artifact, outputDirectory);
 
         String basePackageName = groupId + "." + artifact;
         // sample basePath = output/src/main/java/com/chanhonlun/server
@@ -102,10 +102,18 @@ public class CreateEverythingHandler implements Handler {
         }
     }
 
-    private void writeResources(String rootDirectory) {
+    private void writeResources(String groupId, String artifact, String rootDirectory) {
 
         String resourcesPath = rootDirectory + File.separator + OutputPathConstants.OUTPUT_PATH_SRC_MAIN_RES;
         new File(resourcesPath).mkdirs();
+
+        String webInfPath = rootDirectory + File.separator + OutputPathConstants.OUTPUT_PATH_SRC_MAIN_WEB_INF;
+        new File(webInfPath).mkdirs();
+
+        String basePackage = groupId + "." + artifact;
+        String repoPackage = basePackage + "." + OutputPathConstants.REPO_PACKAGE;
+        String pojoPackage = basePackage + "." + OutputPathConstants.POJO_PACKAGE;
+
         Map<String, Object> templateData;
 
         /*
@@ -118,6 +126,58 @@ public class CreateEverythingHandler implements Handler {
             TemplateUtil.renderTemplate(TemplatePathConstants.RESOURCES_LOGBACK_XML_PATH, templateData, os);
         } catch (IOException e) {
             logger.info("fail creating logback.xml e={}", e);
+        }
+
+        /*
+         * application.properties
+         */
+        templateData = new HashMap<>();
+        templateData.put("databaseUrl", PropertiesUtil.getProperty(Constants.PROP_DATABASE_URL));
+        templateData.put("databaseUsername", PropertiesUtil.getProperty(Constants.PROP_DATABASE_USERNAME));
+        templateData.put("databasePassword", PropertiesUtil.getProperty(Constants.PROP_DATABASE_PASSWORD));
+        templateData.put("databaseDefaultSchema", PropertiesUtil.getProperty(Constants.PROP_DATABASE_DEFAULT_SCHEMA));
+
+        try (OutputStream os = new FileOutputStream(resourcesPath + File.separator + "application.properties")) {
+            TemplateUtil.renderTemplate(TemplatePathConstants.RESOURCES_APPLICATION_PROPERTIES_PATH, templateData, os);
+        } catch (IOException e) {
+            logger.info("fail creating application.properties e={}", e);
+        }
+
+        /*
+         * web.xml
+         */
+        templateData = new HashMap<>();
+        templateData.put("artifact", artifact);
+
+        try (OutputStream os = new FileOutputStream(webInfPath + File.separator + "web.xml")) {
+            TemplateUtil.renderTemplate(TemplatePathConstants.RESOURCES_WEB_XML_PATH, templateData, os);
+        } catch (IOException e) {
+            logger.info("fail creating web.xml e={}", e);
+        }
+
+        /*
+         * applicationContext.xml
+         */
+        templateData = new HashMap<>();
+        templateData.put("repoPackage", repoPackage);
+        templateData.put("pojoPackage", pojoPackage);
+
+        try (OutputStream os = new FileOutputStream(resourcesPath + File.separator + "applicationContext.xml")) {
+            TemplateUtil.renderTemplate(TemplatePathConstants.RESOURCES_APPLICAIOTN_CONTEXT_XML_PATH, templateData, os);
+        } catch (IOException e) {
+            logger.info("fail creating applicationContext.xml e={}", e);
+        }
+
+        /*
+         * dispatcherServlet.xml
+         */
+        templateData = new HashMap<>();
+        templateData.put("basePackage", repoPackage);
+
+        try (OutputStream os = new FileOutputStream(resourcesPath + File.separator + "dispatcherServlet.xml")) {
+            TemplateUtil.renderTemplate(TemplatePathConstants.RESOURCES_DISPATCHER_SERVLET_XML_PATH, templateData, os);
+        } catch (IOException e) {
+            logger.info("fail creating dispatcherServlet.xml e={}", e);
         }
 
     }
