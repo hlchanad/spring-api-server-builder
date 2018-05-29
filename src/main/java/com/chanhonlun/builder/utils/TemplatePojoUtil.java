@@ -3,6 +3,7 @@ package com.chanhonlun.builder.utils;
 import com.chanhonlun.builder.consts.TemplatePathConstants;
 import com.chanhonlun.builder.models.TableColumn;
 import com.chanhonlun.builder.models.TemplateColumn;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jtwig.JtwigModel;
@@ -44,7 +45,7 @@ public class TemplatePojoUtil {
             templateColumn.setJavaType(getJavaType(tableColumn.getName(), tableColumn.getDataType(), tableColumn.getColumnSize(), tableColumn.getDecimalDigit()));
             templateColumn.setDefaultValue(tableColumn.getDefaultValue());
             templateColumn.setNullable(tableColumn.getNullable());
-            templateColumn.setRemarks(tableColumn.getRemarks());
+            templateColumn.setRemarks(StringUtils.isNotBlank(tableColumn.getRemarks()) ? tableColumn.getRemarks().replaceAll("\\n", " ") : null);
 
             templateColumns.add(templateColumn);
         }
