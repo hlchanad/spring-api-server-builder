@@ -22,6 +22,8 @@ public class Constants {
     public static final String PROP_PROJ_TABLE_TRANSLATION_TABLE_SUFFIX
             = "project.table.translation.translationTableSuffix";
 
+    public static final String PROP_LOG_FOLDER_PATH         = "log.folder.path";
+
     public static final String PATH_BASIC_STRUCTURE         = "base-structure";
 
 }

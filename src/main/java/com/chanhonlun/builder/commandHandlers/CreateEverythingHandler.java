@@ -34,6 +34,8 @@ public class CreateEverythingHandler implements Handler {
 
         writeBuildDotGradle(groupId, artifact, outputDirectory);
 
+        writeResources(outputDirectory);
+
         String basePackageName = groupId + "." + artifact;
         // sample basePath = output/src/main/java/com/chanhonlun/server
         String basePath        = outputDirectory + File.separator + OutputPathConstants.OUTPUT_PATH_SRC_MAIN_JAVA + File.separator + basePackageName.replaceAll("\\.", "\\".equals(File.separator) ? "\\" + File.separator : File.separator);
@@ -98,6 +100,26 @@ public class CreateEverythingHandler implements Handler {
         } catch (IOException e) {
             logger.info("fail creating build.gradle e={}", e);
         }
+    }
+
+    private void writeResources(String rootDirectory) {
+
+        String resourcesPath = rootDirectory + File.separator + OutputPathConstants.OUTPUT_PATH_SRC_MAIN_RES;
+        new File(resourcesPath).mkdirs();
+        Map<String, Object> templateData;
+
+        /*
+         * logback.xml
+         */
+        templateData = new HashMap<>();
+        templateData.put("logFolderPath", PropertiesUtil.getProperty(Constants.PROP_LOG_FOLDER_PATH));
+
+        try (OutputStream os = new FileOutputStream(resourcesPath + File.separator + "logback.xml")) {
+            TemplateUtil.renderTemplate(TemplatePathConstants.RESOURCES_LOGBACK_XML_PATH, templateData, os);
+        } catch (IOException e) {
+            logger.info("fail creating logback.xml e={}", e);
+        }
+
     }
 
     private void writeBaseRepositoryInterface(String basePath, String basePackageName) {
