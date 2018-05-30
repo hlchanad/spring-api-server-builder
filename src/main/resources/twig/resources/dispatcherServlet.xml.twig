@@ -24,7 +24,7 @@
     <!-- 	 <context:property-placeholder location="file:/home/product/Applications/My3/config/application.properties"/> -->
     <!-- Scan Beans -->
 
-    <context:component-scan base-package="{{ basePackage }}">
+    <context:component-scan base-package="{{ controllerPackage }}">
         <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
     </context:component-scan>
 

@@ -113,13 +113,14 @@ public class CreateEverythingHandler implements Handler {
         String basePackage = groupId + "." + artifact;
         String repoPackage = basePackage + "." + OutputPathConstants.REPO_PACKAGE;
         String pojoPackage = basePackage + "." + OutputPathConstants.POJO_PACKAGE;
+        String controllerPackage = basePackage + "." + OutputPathConstants.CONTROLLER_PACKAGE;
 
-        Map<String, Object> templateData;
+        Map<String, Object> templateData = new HashMap<>();
 
         /*
          * logback.xml
          */
-        templateData = new HashMap<>();
+        templateData.clear();
         templateData.put("logFolderPath", PropertiesUtil.getProperty(Constants.PROP_LOG_FOLDER_PATH));
 
         try (OutputStream os = new FileOutputStream(resourcesPath + File.separator + "logback.xml")) {
@@ -131,7 +132,7 @@ public class CreateEverythingHandler implements Handler {
         /*
          * application.properties
          */
-        templateData = new HashMap<>();
+        templateData.clear();
         templateData.put("databaseUrl", PropertiesUtil.getProperty(Constants.PROP_DATABASE_URL));
         templateData.put("databaseUsername", PropertiesUtil.getProperty(Constants.PROP_DATABASE_USERNAME));
         templateData.put("databasePassword", PropertiesUtil.getProperty(Constants.PROP_DATABASE_PASSWORD));
@@ -146,7 +147,7 @@ public class CreateEverythingHandler implements Handler {
         /*
          * web.xml
          */
-        templateData = new HashMap<>();
+        templateData.clear();
         templateData.put("artifact", artifact);
 
         try (OutputStream os = new FileOutputStream(webInfPath + File.separator + "web.xml")) {
@@ -158,7 +159,7 @@ public class CreateEverythingHandler implements Handler {
         /*
          * applicationContext.xml
          */
-        templateData = new HashMap<>();
+        templateData.clear();
         templateData.put("repoPackage", repoPackage);
         templateData.put("pojoPackage", pojoPackage);
 
@@ -171,8 +172,8 @@ public class CreateEverythingHandler implements Handler {
         /*
          * dispatcherServlet.xml
          */
-        templateData = new HashMap<>();
-        templateData.put("basePackage", repoPackage);
+        templateData.clear();
+        templateData.put("controllerPackage", controllerPackage);
 
         try (OutputStream os = new FileOutputStream(resourcesPath + File.separator + "dispatcherServlet.xml")) {
             TemplateUtil.renderTemplate(TemplatePathConstants.RESOURCES_DISPATCHER_SERVLET_XML_PATH, templateData, os);
