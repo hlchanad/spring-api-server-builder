@@ -1,13 +1,11 @@
 package com.chanhonlun.builder.test;
 
-import com.chanhonlun.command.utils.CommandUtil;
 import com.chanhonlun.builder.utils.JDBCUtil;
 import com.chanhonlun.builder.utils.PropertiesUtil;
-import org.apache.commons.cli.*;
+import com.chanhonlun.command.utils.CommandUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.SQLException;
 import java.util.Arrays;
 
 public class Test {
@@ -25,7 +23,7 @@ public class Test {
         }
     }
 
-    public static void main(String[] args) throws SQLException, ParseException {
+    public static void main(String[] args) {
 
         args = new String[]{
 //                "-p", "SHOP_USER", "-n", "com.chanhonlun.server.pojos"
@@ -39,6 +37,5 @@ public class Test {
         init();
 
         CommandUtil.parseCommand(args);
-
     }
 }

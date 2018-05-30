@@ -22,42 +22,42 @@
     <!-- UAT -->
 
     <!-- DB Setting -->
-    {#<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">#}
-        {#<property name="driverClassName" value="oracle.jdbc.OracleDriver" />#}
-        {#<property name="url" value="${database.url}" />#}
-        {#<property name="username" value="${database.username}" />#}
-        {#<property name="password" value="${database.pdd}" />#}
-        {#<property name="maxTotal" value="${database.maxTotal}" />#}
-        {#<property name="maxIdle" value="${database.maxIdle}" />#}
-        {#<property name="initialSize" value="${database.initialSize}" />#}
-        {#<property name="minIdle" value="${database.minIdle}" />#}
-        {#<property name="maxWaitMillis" value="${database.maxWaitMillis}" />#}
-        {#<property name="validationQuery" value="${database.validationQuery}" />#}
-        {#<property name="validationQueryTimeout" value="${database.validationQueryTimeout}" />#}
-    {#</bean>#}
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="oracle.jdbc.OracleDriver" />
+        <property name="url" value="${database.url}" />
+        <property name="username" value="${database.username}" />
+        <property name="password" value="${database.password}" />
+        <property name="maxTotal" value="${database.maxTotal}" />
+        <property name="maxIdle" value="${database.maxIdle}" />
+        <property name="initialSize" value="${database.initialSize}" />
+        <property name="minIdle" value="${database.minIdle}" />
+        <property name="maxWaitMillis" value="${database.maxWaitMillis}" />
+        <property name="validationQuery" value="${database.validationQuery}" />
+        <property name="validationQueryTimeout" value="${database.validationQueryTimeout}" />
+    </bean>
 
-    {#<jpa:repositories base-package="{{ repoPackage }}" />#}
+    <jpa:repositories base-package="{{ repoPackage }}" />
 
-    {#<bean id="entityManagerFactory"#}
-          {#class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">#}
-        {#<property name="packagesToScan" value="{{ pojoPackage }}" />#}
-        {#<property name="dataSource" ref="dataSource" />#}
-        {#<property name="jpaVendorAdapter">#}
-            {#<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />#}
-        {#</property>#}
-        {#<property name="jpaProperties">#}
-            {#<props>#}
-                {#<prop key="hibernate.hbm2ddl.auto">none</prop>#}
-                {#<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>#}
-                {#<prop key="hibernate.show_sql">${database.showSQL}</prop>#}
-                {#<prop key="hibernate.generateDdl">true</prop>#}
-                {#<prop key="hibernate.default_schema">${database.defaultSchema}</prop>#}
-            {#</props>#}
-        {#</property>#}
-    {#</bean>#}
+    <bean id="entityManagerFactory"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="packagesToScan" value="{{ pojoPackage }}" />
+        <property name="dataSource" ref="dataSource" />
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+        </property>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">none</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
+                <prop key="hibernate.show_sql">${database.showSQL}</prop>
+                <prop key="hibernate.generateDdl">true</prop>
+                <prop key="hibernate.default_schema">${database.defaultSchema}</prop>
+            </props>
+        </property>
+    </bean>
 
-    {#<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" />#}
-    {#<tx:annotation-driven/>#}
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" />
+    <tx:annotation-driven/>
 
     {#<!-- Web Service Response XML to Object Marshaller -->#}
     {#<import resource="classpath:marshaller-siebel.xml" />#}
